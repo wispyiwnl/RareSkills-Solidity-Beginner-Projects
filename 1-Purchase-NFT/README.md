@@ -11,4 +11,8 @@ ERC721 NFT that can only be minted by paying with a specific ERC20 token. Each m
 
 - **EndToEnd** – Deploys SANTANA and SantanaNFT, mints ERC20, approves and calls `nft.mint(1)`, asserts `totalSupply == 1`.
 
-Educational use only. See [repo root](../../README.md) for security disclaimer.
+# Security and Disclaimer
+
+This repository is educational and intentionally simple. It is not designed for mainnet use.
+> DISCLAIMER: None of the code has been audited or undergone a security review, use at your own risk.
+Treat all contracts here as training material only. Do not deploy them to handle real value without a professional security review.
