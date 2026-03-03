@@ -10,15 +10,20 @@ contract EndToEnd is Test {
     SantanaNFT nft;
     SANTANA santana;
 
+    address user = makeAddr("user");
+
     function setUp() public {
         santana = new SANTANA();
         nft = new SantanaNFT(IERC20(santana));
     }
 
     function test_endToEnd() public {
+        vm.startPrank(user);
         santana.mint(55);
         santana.approve(address(nft), 1);
         nft.mint(1);
+        vm.stopPrank();
         assertEq(1, nft.totalSupply());
+        assertEq(user, nft.ownerOf(1));
     }
 }

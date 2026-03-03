@@ -3,12 +3,14 @@ pragma solidity 0.8.24;
 
 import {ERC721} from "openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 /// @title ERC721 purchasable with a specific ERC20 token
 /// @author wispyiwnl
 /// @notice Allows users to mint NFTs only by paying with a predefined ERC20 token
 /// @dev Simple example where each NFT costs exactly 1 unit of the ERC20 token
 contract SantanaNFT is ERC721 {
+    using SafeERC20 for IERC20;
     /// @notice Total number of NFTs minted
     uint256 public totalSupply;
 
@@ -27,13 +29,11 @@ contract SantanaNFT is ERC721 {
     /// @param amount Amount of ERC20 tokens to pay (must be exactly 1)
     function mint(uint256 amount) external {
         require(amount == 1, "invalid amount");
-        require(amount <= token.balanceOf(msg.sender), "insufficient balance");
         require(token.allowance(msg.sender, address(this)) >= amount, "insufficient allowance");
 
-        bool ok = token.transferFrom(msg.sender, address(this), amount);
-        require(ok, "transfer failed");
+        token.safeTransferFrom(msg.sender, address(this), amount);
 
         totalSupply++;
-        _mint(msg.sender, totalSupply);
+        _safeMint(msg.sender, totalSupply);
     }
 }

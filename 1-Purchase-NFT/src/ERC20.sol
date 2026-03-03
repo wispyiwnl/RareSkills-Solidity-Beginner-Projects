@@ -15,7 +15,7 @@ contract SANTANA is ERC20 {
     /// @notice Mints `amount` tokens to the caller
     /// @dev No access control, intended only for testing and local development
     /// @param amount Number of tokens to mint to the caller
-    function mint(uint256 amount) public {
+    function mint(uint256 amount) external {
         _mint(msg.sender, amount);
     }
 }
